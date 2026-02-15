@@ -11,9 +11,12 @@ const app = express();
 app.use(morgan('tiny')); 
 app.use(express.static(path.join(__dirname, '/public/'))); 
 
+app.set('views', './src/views');
+app.set('view engine', 'ejs');
+
 
 app.get('/', (req, res) =>{
-     res.send('Hello from my app'); 
+     res.render('index', {title: 'Welcome to Globalmantics', data: ['a', 'b', 'c'] }); 
 });
 
 app.listen(PORT, ()=>{
