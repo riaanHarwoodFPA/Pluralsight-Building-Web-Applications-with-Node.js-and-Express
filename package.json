@@ -17,6 +17,7 @@
   "scripts": {
     "start": "cross-env DEBUG=app node app.js",
     "debug": "cross-env DEBUG=* node app.js",
+    "dev": "cross-env DEBUG=app nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -31,6 +32,9 @@
   },
   "nodemonConfig": {
     "restartable": "rs",
-    "delay": 2500
+    "delay": 2500,
+    "env": {
+      "Port": 4000
+    }
   }
 }
