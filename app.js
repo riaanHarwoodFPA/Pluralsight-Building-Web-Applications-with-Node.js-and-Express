@@ -11,7 +11,6 @@ const sessionsRouter = require('./src/routers/sessionsRouter');
 const adminRouter = require('./src/routers/adminRouter');
 
 
-
 app.use(morgan('tiny'));
 app.use(express.static(path.join(__dirname, '/public/')));
 
