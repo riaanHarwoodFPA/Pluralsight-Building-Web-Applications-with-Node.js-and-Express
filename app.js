@@ -7,7 +7,7 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 const app = express(); 
 const sessionsRouter = require('./src/routers/sessionsRouter');
-const adminRouter = require('./src/routers/adminRouters');
+const adminRouter = require('./src/routers/adminRouter');
 
 
 

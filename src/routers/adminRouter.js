@@ -1,12 +1,13 @@
-const express = require('express'); 
-const debug = require('debug')('app:sessionRouter'); 
+const { greenBright } = require('chalk');
+const express = require('express');
+const debug = require('debug')('app:adminRouter'); 
 const { MongoClient } = require('mongodb'); 
 const sessions = require('../data/sessions.json');
 
-const sessionsRouter = express.Router(); 
+const adminRouter = express.Router();
 
-sessionsRouter.route('/').get((req, res) => {
 
+adminRouter.route('/').get((req, res) => {
     const url = 'mongodb+srv://dbUser:vw6SzyYD19iGxWkr@globomantics.4uermfy.mongodb.net?retryWrites=true&w=majority';
     const dbName = 'globomantics';
 
@@ -18,8 +19,8 @@ sessionsRouter.route('/').get((req, res) => {
             debug('Connected to the mongo DB'); 
 
             const db = client.db(dbName); 
-            const sessions = await db.collection('sessions').find().toArray();
-            res.render('sessions', {sessions});
+            const response = await db.collection('sessions').insertMany(sessions);
+            res.json (response);
         } catch (error){
             debug(error.stack);
         }
@@ -29,14 +30,6 @@ sessionsRouter.route('/').get((req, res) => {
             }
         }
     })();
-
 });
 
-sessionsRouter.route('/:id').get((req, res) => {
-    const id = req.params.id;
-    res.render('session', { 
-        session: sessions[id], 
-    }); 
-});
-
-module.exports = sessionsRouter; 
+module.exports = adminRouter; 
