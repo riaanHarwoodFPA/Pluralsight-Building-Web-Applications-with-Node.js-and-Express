@@ -8,9 +8,8 @@ const adminRouter = express.Router();
 
 
 adminRouter.route('/').get((req, res) => {
-    const url = 'mongodb+srv://dbUser:vw6SzyVD19iGxWkr@globomantics.4uermfy.mongodb.net?retryWrites=true&w=majority';
-    const dbName = 'glomonatics';
-
+    const url = process.env.MONGODB_URI;
+    const dbName = process.env.MONGODB_DBNAME;
     (async function mongo(){
         let client; 
         try{
@@ -20,7 +19,7 @@ adminRouter.route('/').get((req, res) => {
 
             const db = client.db(dbName); 
             const response = await db.collection('sessions').insertMany(sessions);
-            res.json (response);
+            res.json(response);
         } catch (error){
             debug(error.stack);
         }

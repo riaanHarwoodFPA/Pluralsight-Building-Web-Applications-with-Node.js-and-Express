@@ -9,7 +9,6 @@ sessionsRouter.route('/').get((req, res) => {
 
     const url = process.env.MONGODB_URI;
     const dbName = process.env.MONGODB_DBNAME;
-
     (async function mongo(){
         let client; 
         try{
@@ -19,7 +18,7 @@ sessionsRouter.route('/').get((req, res) => {
 
             const db = client.db(dbName); 
             const sessions = await db.collection('sessions').find().toArray();
-            res.render('sessions', {sessions});
+            res.render('sessions', { sessions });
         } catch (error){
             debug(error.stack);
         }
