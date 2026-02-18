@@ -3,7 +3,7 @@ const chalk = require('chalk');
 const debug = require('debug')('app'); 
 const morgan = require('morgan'); 
 const path = require('path'); 
-require('dotenv').config();
+//require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
 const app = express(); 

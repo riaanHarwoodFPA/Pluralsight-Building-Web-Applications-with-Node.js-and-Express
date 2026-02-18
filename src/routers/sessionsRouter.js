@@ -7,7 +7,23 @@ const sessionsRouter = express.Router();
 
 sessionsRouter.route('/').get((req, res) => {
 
-    const url = 'mongodb+srv://dbUser:vw6SzyYD19iGxWkr@globomantics.4uermfy.mongodb.net?retryWrites=true&w=majority';
+   res.render('sessions'), {
+    sessions,
+   }
+});
+
+sessionsRouter.route('/:id').get((req, res) => {
+    const id = req.params.id;
+    res.render('session', { 
+        session: sessions[id], 
+    }); 
+});
+
+module.exports = sessionsRouter; 
+
+
+/**
+ *  const url = 'mongodb+srv://dbUser:vw6SzyYD19iGxWkr@globomantics.4uermfy.mongodb.net?retryWrites=true&w=majority';
     const dbName = 'globomantics';
 
     (async function mongo(){
@@ -30,13 +46,4 @@ sessionsRouter.route('/').get((req, res) => {
         }
     })();
 
-});
-
-sessionsRouter.route('/:id').get((req, res) => {
-    const id = req.params.id;
-    res.render('session', { 
-        session: sessions[id], 
-    }); 
-});
-
-module.exports = sessionsRouter; 
+ */

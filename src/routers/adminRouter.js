@@ -8,23 +8,23 @@ const adminRouter = express.Router();
 
 
 adminRouter.route('/').get((req, res) => {
-    const url = process.env.MONGODB_URI;
-    const dbName = process.env.MONGODB_DBNAME;
+    const url = 'mongodb+srv://dbUser:vw6SzyYD19iGxWkr@globomantics.4uermfy.mongodb.net?retryWrites=true&w=majority';
+    const dbName = 'globomantics';
 
-    (async function mongo(){
-        let client; 
-        try{
+    (async function mongo() {
+        let client;
+        try {
             client = new MongoClient(url);
             await client.connect(); // important
-            debug('Connected to the mongo DB'); 
+            debug('Connected to the mongo DB');
 
-            const db = client.db(dbName); 
+            const db = client.db(dbName);
             const response = await db.collection('sessions').insertMany(sessions);
-            res.json (response);
-        } catch (error){
+            res.json(response);
+        } catch (error) {
             debug(error.stack);
-        }
-        finally {
+            res.status(500).send('Error inserting sessions');
+        } finally {
             if (client) {
                 await client.close();
             }
