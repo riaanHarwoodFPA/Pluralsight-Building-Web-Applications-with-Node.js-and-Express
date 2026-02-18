@@ -8,8 +8,8 @@ const adminRouter = express.Router();
 
 
 adminRouter.route('/').get((req, res) => {
-    const url = process.env.MONGODB_URI;
-    const dbName = process.env.MONGODB_DBNAME;
+    const url = 'mongodb+srv://dbUser:vw6SzyVD19iGxWkr@globomantics.4uermfy.mongodb.net?retryWrites=true&w=majority';
+    const dbName = 'glomonatics';
 
     (async function mongo(){
         let client; 
