@@ -6,7 +6,6 @@ const sessions = require('../data/sessions.json');
 
 const adminRouter = express.Router();
 
-
 adminRouter.route('/').get((req, res) => {
     const url = process.env.MONGODB_URI;
     const dbName = process.env.MONGODB_DBNAME;
