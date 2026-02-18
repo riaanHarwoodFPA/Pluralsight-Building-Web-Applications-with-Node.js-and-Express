@@ -9,6 +9,7 @@ sessionsRouter.route('/').get((req, res) => {
 
     const url = process.env.MONGODB_URI;
     const dbName = process.env.MONGODB_DBNAME;
+
     (async function mongo() {
         let client;
         try {
@@ -33,6 +34,7 @@ sessionsRouter.route('/').get((req, res) => {
 
 sessionsRouter.route('/:id').get((req, res) => {
     const id = req.params.id;
+
     const url = process.env.MONGODB_URI;
     const dbName = process.env.MONGODB_DBNAME;
 
@@ -40,24 +42,32 @@ sessionsRouter.route('/:id').get((req, res) => {
         let client;
         try {
             client = new MongoClient(url);
-            await client.connect(); // important
-            debug('Connected to the mongo DB');
+            await client.connect();
 
             const db = client.db(dbName);
-            const session = await db.collection('sessions').findOne({ _id: new ObjectId(id) });
-            res.render('sessions', {
-                sessions,
+            const session = await db
+                .collection('sessions')
+                .findOne({ _id: new ObjectId(id) });
+
+            if (!session) {
+                return res.status(404).send('Session not found');
+            }
+
+            res.render('session', { 
+                session, 
             });
+
         } catch (error) {
             debug(error.stack);
-        }
-        finally {
+            res.status(500).send('Database connection failed');
+
+        } finally {
             if (client) {
                 await client.close();
             }
         }
     })();
-
 });
+
 
 module.exports = sessionsRouter;
