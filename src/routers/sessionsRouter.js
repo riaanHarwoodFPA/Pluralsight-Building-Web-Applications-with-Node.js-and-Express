@@ -1,6 +1,7 @@
 const express = require('express');
 const debug = require('debug')('app:sessionRouter');
 const { MongoClient, ObjectId } = require('mongodb');
+const speakerService = require('../services/speakerService'); 
 
 const sessions = require('../data/sessions.json');
 const sessionsRouter = express.Router();
@@ -42,8 +43,7 @@ sessionsRouter.route('/').get((req, res) => {
 });
 
 sessionsRouter.route('/:id').get((req, res) => {
-    const id = req.params.id;
-
+    const { id } = req.params;
     const url = process.env.MONGODB_URI;
     const dbName = process.env.MONGODB_DBNAME;
 
@@ -54,22 +54,23 @@ sessionsRouter.route('/:id').get((req, res) => {
             await client.connect();
 
             const db = client.db(dbName);
+
             const session = await db
                 .collection('sessions')
                 .findOne({ _id: new ObjectId(id) });
+
+            const speaker = await speakerService.getSpeakerById(session.speakers[0].id);
+            session.speaker = speaker.data;
 
             if (!session) {
                 return res.status(404).send('Session not found');
             }
 
-            res.render('session', { 
-                session, 
-            });
+            res.render('session', { session });
 
         } catch (error) {
             debug(error.stack);
             res.status(500).send('Database connection failed');
-
         } finally {
             if (client) {
                 await client.close();

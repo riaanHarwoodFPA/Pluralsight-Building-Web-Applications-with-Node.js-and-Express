@@ -8,7 +8,7 @@ const passport = require('passport');
 const cookieParser = require('cookie-parser'); 
 const session = require('express-session'); 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const app = express();
 const sessionsRouter = require('./src/routers/sessionsRouter');
 const adminRouter = require('./src/routers/adminRouter');
